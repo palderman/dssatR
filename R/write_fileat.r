@@ -48,7 +48,7 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     l1=length(info)+4
     l2=length(fileat.lines)
     for (i in 1:ncol(fileat)){
-        fileat.lines[l1:l2] = paste(fileat.lines[l1:l2],sprintf(formatting[i],fileat[,i]),sep='')
+        fileat.lines[l1:l2] = paste(fileat.lines[l1:l2],sprintf(fmt[i],fileat[,i]),sep='')
     }
     
     fileat.lines = gsub('    NA','      ',fileat.lines)
