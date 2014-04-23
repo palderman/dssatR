@@ -36,7 +36,7 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     fclass[fclass=='numeric']='f'
     fclass[fclass=='integer']='i'
     fclass[fclass=='character']='s'
-    decmimal=vector(length=length(fclass),mode='character')
+    decimal=vector(length=length(fclass),mode='character')
     decimal[]=''
     ind = grepl('AM$',cnames)|grepl('AD$',cnames)|grepl('DAP$',cnames)
     decimal[ind] = '.0'
