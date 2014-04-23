@@ -5,7 +5,7 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     header = sprintf('%6s',cnames)
     width = nchar(gsub(' *','',cnames))+1
     width[width<6] = 6
-    width[grepl('DAT$',cnames)] = 8
+    width[grepl('DAT$',cnames)] = 6
     hd.fmt = paste('%',width,'s',sep='')
     header = gsub('  *TRNO','@TRNO ',header)
     fileat=data.frame(lapply(fileat,function(x){
@@ -36,14 +36,16 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     fclass[fclass=='numeric']='f'
     fclass[fclass=='integer']='i'
     fclass[fclass=='character']='s'
+    decmimal=vector(length=length(fclass),mode='character')
+    decimal[]=''
     ind = grepl('AM$',cnames)|grepl('AD$',cnames)|grepl('DAP$',cnames)
-    fclass[ind] = paste('.0',fclass[ind],sep='')
+    decimal[ind] = '.0'
     ind = grepl(' *HI',cnames)|cnames%in%c('SL%20D','HWUM')
-    fclass[ind] = paste('.3',fclass[ind],sep='')
+    decimal[ind] = '.3'
     ind = cnames%in%c('L#SD','GWGD')
-    fclass[ind] = paste('.1',fclass[ind],sep='')
-    fclass[fclass=='f']='.2f'
-    fmt =paste('%',width,fclass,sep='')
+    decimal[ind] = '.1'
+    decimal[fclass=='f'&decimal=='']='.2'
+    fmt =paste('%',width,decimal,fclass,sep='')
         
     l1=length(info)+4
     l2=length(fileat.lines)
