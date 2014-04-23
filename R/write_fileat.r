@@ -11,7 +11,7 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     fileat=data.frame(lapply(fileat,function(x){
         if(any(grepl('POSIXt',class(x)))){
             yr = as.POSIXlt(x)$year
-            yr[yr>100] = yr[yr>100] - 100
+            yr[!is.na(yr)&&yr>100] = yr[!is.na(yr)&&yr>100] - 100
             yrdoy = yr*1000 +
                 as.integer(as.character(as.POSIXlt(x)$yday+1))
             x = yrdoy
