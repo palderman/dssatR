@@ -4,14 +4,14 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     cnames = colnames(fileat)
     header = sprintf('%6s',cnames)
     width = nchar(gsub(' *','',cnames))+1
+    width[width<6] = 6
     width[grepl('DAT$',cnames)] = 8
     hd.fmt = paste('%',width,'s',sep='')
     header = gsub('  *TRNO','@TRNO ',header)
     fileat=data.frame(lapply(fileat,function(x){
         if(any(grepl('POSIXt',class(x)))){
-            x = paste(as.character(as.POSIXlt(x)$year+1900),
-                    sprintf('%3.3i',as.integer(as.character(
-                        as.POSIXlt(x)$yday+1))),
+            x = paste(substr(as.character(as.POSIXlt(x)$year+1900),3,4),
+                sprintf('%3.3i',as.integer(as.character(as.POSIXlt(x)$yday+1))),
                 sep='')
         }
         return(x)}))
