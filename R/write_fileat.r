@@ -10,9 +10,11 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     header = gsub('  *TRNO','@TRNO ',header)
     fileat=data.frame(lapply(fileat,function(x){
         if(any(grepl('POSIXt',class(x)))){
-            x = paste(substr(as.character(as.POSIXlt(x)$year+1900),3,4),
-                sprintf('%3.3i',as.integer(as.character(as.POSIXlt(x)$yday+1))),
-                sep='')
+            yr = as.POSIXlt(x)$year
+            yr[yr>100] = yr[yr>100] - 100
+            yrdoy = yr*1000 +
+                as.integer(as.character(as.POSIXlt(x)$yday+1))
+            x = yrdoy
         }
         return(x)}))
      colnames(fileat) = cnames
@@ -32,21 +34,12 @@ write.fileat <- function(fileat,filename,type=NA,title='',info=''){
     fileat.lines[3:(length(info)+2)] = paste('!',info)
     fileat.lines[length(info)+3] = paste(header,collapse='')
 
-    fclass = unlist(lapply(fileat,class))
-    fclass[fclass=='numeric']='f'
-    fclass[fclass=='integer']='i'
-    fclass[fclass=='character']='s'
-    decimal=vector(length=length(fclass),mode='character')
-    decimal[]=''
-    ind = grepl('AM$',cnames)|grepl('AD$',cnames)|grepl('DAP$',cnames)
-    decimal[ind] = '.0'
-    ind = grepl(' *HI',cnames)|cnames%in%c('SL%20D','HWUM')
-    decimal[ind] = '.3'
-    ind = cnames%in%c('L#SD','GWGD')
-    decimal[ind] = '.1'
-    decimal[fclass=='f'&decimal=='']='.2'
-    fmt =paste('%',width,decimal,fclass,sep='')
-        
+    fmt.list = fmt.default()
+    fmt = vector(length=ncol(fileat),mode='character')
+    for(i in 1:length(fmt.list)){
+        fmt[cnames%in%fmt.list[[i]]] = names(fmt.list)[i]
+    }
+    
     l1=length(info)+4
     l2=length(fileat.lines)
     for (i in 1:ncol(fileat)){
