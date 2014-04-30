@@ -74,4 +74,7 @@ add.periods,
 get.widths,
 combine.wth.yrs,
 wth.yrs.split,
-lyr.depths)
+lyr.depths,
+fmt2width,
+fmt2class,
+read.tier)

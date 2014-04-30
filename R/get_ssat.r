@@ -1,4 +1,4 @@
-get.ssat <- function(som,sbdm,minBD,coarse){
+get.ssat <- function(som,sbdm,minBD){
     ssat = 0.95*(1/sbdm-1/(som/0.224+(100-som)/minBD))
 #    na=is.na(coarse)
 #    if(any(!na)){

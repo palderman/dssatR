@@ -12,7 +12,7 @@ fill.in.profile <- function(soil.profile){
     na = is.na(soil.profile$layer$SSAT)
     if(any(na)){
         soil.profile$layer$SSAT[na] = 
-            get.ssat(som,soil.profile$layer$SBDM,minBD,coarse)[na]
+            get.ssat(som,soil.profile$layer$SBDM,minBD)[na]
     }
     na = is.na(soil.profile$layer$SSKS)
     if(any(na)){
