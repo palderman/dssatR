@@ -10,7 +10,7 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
     }
     class = fmt2class(fmt)
     if(all(cnames%in%unlist(fmt.list))){
-        widths = fmt2widths(fmt)
+        widths = fmt2width(fmt)
     }else{
         widths = vector(length=length(cnames),mode='numeric')
         for(i in 1:length(cnames)){
