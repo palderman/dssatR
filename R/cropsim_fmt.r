@@ -1,7 +1,7 @@
 cropsim.fmt <- function(){
     fmt = list(
         `%6.0f`=c('P1','P2','P3','P4','P5','P6','P7','P8','PHINT','HTSTD',
-            'RS%A','TKFH','GWTAT',),
+            'RS%A','TKFH','GWTAT'),
         `%6.1f`=c('VREQ','VBASE','PPS1','PPS2','LA1S','SHWTS','GWTS',
             'PARUE','PARU2','PHL2','PHF3','SLAS','LSENI','LSPHS','LSPHE',
             'TIL#S','TIPHE','TIFAC','TDPHS','TDPHE','TDFAC','RDGS','AWNS',
