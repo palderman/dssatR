@@ -1,19 +1,17 @@
 write.gen <- function(gen,file.name,model=NULL){
-    if(is.null(model)){
-        if(grepl('GRO',file.name)){
-            model='CROPGRO'
-        }else if(grepl('CRP',file.name)){
-            model = 'CROPSIM'
-            fmt.list = cropsim.fmt()
-        }else if(grepl('CER',file.name)){
-            model = 'CERES'
-            fmt.list = ceres.fmt()
-        }else if(grepl('APS',file.name)){
-            model = 'NWHEAT'
-            fmt.list = nwheat.fmt()
-        }else{
-            stop('Please provide model name.')
-        }
+    if(grepl('GRO',file.name)){
+        model='CROPGRO'
+    }else if(grepl('CRP',file.name)){
+        model = 'CROPSIM'
+        fmt.list = cropsim.fmt()
+    }else if(grepl('CER',file.name)){
+        model = 'CERES'
+        fmt.list = ceres.fmt()
+    }else if(grepl('APS',file.name)){
+        model = 'NWHEAT'
+        fmt.list = nwheat.fmt()
+    }else if(is.null(model)){
+        stop('Please provide model name.')
     }
     write(gen$title,file=file.name)
     write(gen$comments,file=file.name,append=T)
