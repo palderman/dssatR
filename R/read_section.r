@@ -13,20 +13,25 @@ read.section <- function(file){
         }
         if(begin<end){
             pos.names = get.pos.names(file,begin,end)
+            if('NOTES' %in% pos.names[[3]]){
+                section[[i]] = data.frame(file[(begin+1):end])
+                colnames(section[[i]]) = pos.names[[3]]
+            }else{
             if(!is.vector(pos.names[[1]])){
                 section[[i]] = matrix(nrow=(end-begin),ncol=ncol(pos.names[[1]]))
                 for(j in 1:ncol(pos.names[[1]])){
                     section[[i]][,j] = substring(file[(begin+1):end],pos.names[[1]][,j],pos.names[[2]][,j])
                 }
-                section[[i]] = as.data.frame(section[[i]],stringsAsFactors=F)
+                section[[i]] = data.frame(section[[i]],stringsAsFactors=F)
                 colnames(section[[i]])=pos.names[[3]]
             }else{
                 section[[i]] = matrix(nrow=(end-begin),ncol=length(pos.names[[1]]))
                 for(j in 1:length(pos.names[[1]])){
                     section[[i]][,j] = substring(file[(begin+1):end],pos.names[[1]][j],pos.names[[2]][j])
                 }
-                section[[i]] = as.data.frame(section[[i]],stringsAsFactors=F)
+                section[[i]] = data.frame(section[[i]],stringsAsFactors=F)
                 colnames(section[[i]])=pos.names[[3]]
+            }
             }
             for(j in 1:ncol(section[[i]])){
                 if(numeric.all(section[[i]][,j])){
