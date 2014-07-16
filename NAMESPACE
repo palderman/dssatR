@@ -77,4 +77,7 @@ wth.yrs.split,
 lyr.depths,
 fmt2width,
 fmt2class,
-read.tier)
+read.tier,
+expand.missing.dates,
+fill.missing.vals
+)
