@@ -20,7 +20,7 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
     }
     vars = read.fwf(file.name,widths=widths,skip=l1,nrow=nrows,
         colClasses=class,comment.char='!',blank.lines.skip=TRUE,
-        na.strings=c('-99','-99.','-99.0'))
+        na.strings=c('-99','-99.','-99.0'),header=FALSE)
     colnames(vars)=cnames
     return(vars)
 }

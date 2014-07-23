@@ -9,7 +9,8 @@ cropsim.fmt <- function(){
         `%6.2f`=c('VEFF','LAFV','LAFR','TDSF','KCAN','G#RF','NUPNF'),
         `%6.3f`=c('RTNUP'),
         `%7s`=c('ECO#','VAR#','EXPNO','EXP#'),
-        `%-16s`=c('ECONAME........','VRNAME..........','VAR-NAME........')
+        `%-16s`=c('ECONAME........','VRNAME..........','VAR-NAME........'),
+        `%-18s`=c('ECONAME..........')
         )
     return(fmt)
 }
