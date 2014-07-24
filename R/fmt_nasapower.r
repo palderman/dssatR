@@ -5,7 +5,7 @@ fmt.nasapower <- function(){
         `%6.1f`=c('TAV','AMP','SRAD'),
         `%6i`=c('TRNO','WEYR','WEDAY'),
         `%6s`=c('INSI'),
-        `%9.3f`=c('WTHLAT')
+        `%9.3f`=c('WTHLAT'),
         `%10.3f`=c('WTHLONG')
         )
     return(fmt)
