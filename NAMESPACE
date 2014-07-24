@@ -79,5 +79,6 @@ fmt2width,
 fmt2class,
 read.tier,
 expand.missing.dates,
-fill.missing.vals
+fill.missing.vals,
+allna.omit
 )
