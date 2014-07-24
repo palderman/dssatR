@@ -80,5 +80,6 @@ fmt2class,
 read.tier,
 expand.missing.dates,
 fill.missing.vals,
-allna.omit
+allna.omit,
+minus992na
 )
