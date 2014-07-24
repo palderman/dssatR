@@ -13,8 +13,13 @@ read.weather <- function(file.name,nasapower=FALSE){
         check = tmp[(hlines[i]+1):end]
         nrows = length(check[substr(check,1,1)!='!'&
             nchar(gsub('  *','',check))>0])
+	if(nasapower){
+            fmt.list = fmt.nasapower()
+        }else{
+            fmt.list = fmt.default()
+        }
         vars = read.tier(tmp[hlines[i]],hlines[i],nrows,
-            file.name=file.name)
+            file.name=file.name,fmt.list=fmt.list)
         if('INSI'%in%colnames(vars)){
             station.info=vars
             cnames = colnames(station.info)
