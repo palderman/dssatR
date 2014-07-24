@@ -9,6 +9,7 @@ write.tier <- function(tier,file.name,fmt.list=NULL){
     cnames[1] = paste('@',gsub(' ','',cnames[1]),sep='')
     for(c in 1:ncol(tier)){
         tier[,c] = sprintf(fmt[c],tier[,c])
+        if(c==1) fmt[1] = paste('%-',fmt2width(fmt[1]),'s',sep='')
         cnames[c] = sprintf(gsub('\\..*[fi]','s',fmt[c]),cnames[c])
     }
     tier = rbind(cnames,tier)
