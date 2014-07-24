@@ -7,8 +7,7 @@ fmt.default <- function(){
         `%6.2f`=c('HWUM'),
         `%6.3f`=c('HIAM'),
         `%6.5i`=c('ADAT','MDAT','IEDAT','DATE'),
-        `%6i`=c('TRNO','WEYR'),
-        `%5i`=c('WEDAY'),
+        `%6i`=c('TRNO','WEYR','WEDAY'),
         `%6s`=c('INSI'),
         `%9.3f`=c('LAT','WTHLAT','LONG','WTHLONG')
         )
