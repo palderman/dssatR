@@ -16,9 +16,12 @@ write.gen <- function(gen,file.name,model=NULL){
     write(gen$title,file=file.name)
     write(gen$comments,file=file.name,append=T)
     if(is.data.frame(gen$p)){
+        colnames(gen$p)[1]=sprintf('@%s',gsub(' ','',colnames(gen$p)[1]))
         write.tier(gen$p,file.name=file.name,fmt.list=fmt.list)
     }else{
         for(i in 1:length(gen$p)){
+            colnames(gen$p[[i]])[1]=
+                sprintf('@%s',gsub(' ','',colnames(gen$p[[i]])[1]))
             write.tier(gen$p[[i]],file.name=file.name,
                        fmt.list=fmt.list)
         }

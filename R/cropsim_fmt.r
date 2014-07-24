@@ -8,11 +8,11 @@ cropsim.fmt <- function(){
             'GN%S','GN%MN','GM%H','SSPHS','SSPHE','GWTAF','NUPWF'),
         `%6.2f`=c('VEFF','LAFV','LAFR','TDSF','KCAN','G#RF','NUPNF'),
         `%6.3f`=c('RTNUP'),
-        `%4s `=c('EXP#'),
-        `%6s`=c('ECO#','VAR#','EXPNO'),
-        ` %-16s`=c('ECONAME........','VRNAME..........'),
-        ` %-17s`=c('VAR-NAME........'),
-        ` %-18s`=c('ECONAME..........')
+        `%6s`=c('EXPNO','EXP#'),
+        `%-7s`=c('@ECO#','@VAR#'),
+        `%7s`=c('ECO#','VAR#'),
+        `%-16s`=c('ECONAME........','VRNAME..........','VAR-NAME........'),
+        `%-18s`=c('ECONAME..........')
         )
     return(fmt)
 }
