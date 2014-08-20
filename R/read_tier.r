@@ -18,9 +18,32 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
             widths[i]=tmp$stop-tmp$start+1
         }
     }
-    vars = read.fwf(file.name,widths=widths,skip=l1,nrow=nrows,
+    vars = try(read.fwf(file.name,widths=widths,skip=l1,nrow=nrows,
         colClasses=class,comment.char='!',blank.lines.skip=TRUE,
-        na.strings=c('-99','-99.','-99.0'),header=FALSE)
+        na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
+        header=FALSE),silent=TRUE)
+    if(class(vars)=='try-error'){
+        vars = read.table(file.name,skip=l1,nrow=nrows,
+            colClasses=class,comment.char='!',blank.lines.skip=TRUE,
+            na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
+            header=FALSE)
+    }
     colnames(vars)=cnames
-    return(vars)
+    if(any(grepl('yrdoy',fmt))){
+        for(i in (1:ncol(vars))[grepl('yrdoy',fmt)]){
+            vars[,i] = as.numeric(vars[,i])
+            if(floor(vars[1,i]/1000)<30){
+                vars[,i]=sprintf('%7i',vars[,i]+2000000)
+            }else{
+                vars[,i]=sprintf('%7i',vars[,i]+1900000)
+            }
+            vars[,i] = as.POSIXct(vars[,i],format='%Y%j')
+        }
+    }
+    if(any(grepl('yeardoy',fmt))){
+        for(i in (1:ncol(vars))[grepl('yeardoy',fmt)]){
+            vars[,i] = as.POSIXct(vars[,i],format='%Y%j')
+        }
+    }
+    return(invisible(vars))
 }

@@ -48,6 +48,7 @@ read.gen <- function(file.name,model=NULL,type=NULL){
                 x[,c]=gsub('^ *','',gsub(' *$','',x[,c]))
             }
         }
+        return(x)
     })
     gen = list(title=title,comments=comments,parameters=parameters)
     return(gen)
