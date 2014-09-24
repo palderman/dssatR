@@ -19,14 +19,14 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
         }
     }
     vars = try(read.fwf(file.name,widths=widths,skip=l1,nrow=nrows,
-        colClasses=class,comment.char='!',blank.lines.skip=TRUE,
+        colClasses=class,comment.char='!',
         na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
-        header=FALSE),silent=TRUE)
+        header=FALSE,fill=TRUE),silent=TRUE)
     if(class(vars)=='try-error'){
         vars = read.table(file.name,skip=l1,nrow=nrows,
             colClasses=class,comment.char='!',blank.lines.skip=TRUE,
             na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
-            header=FALSE)
+            header=FALSE,fill=TRUE)
     }
     colnames(vars)=cnames
     if(any(grepl('yrdoy',fmt))){

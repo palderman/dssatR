@@ -33,7 +33,7 @@ read.weather <- function(file.name,nasapower=FALSE){
             data = vars
         }
     }
-    if('DATE'%in%colnames(data)){
+    if('DATE'%in%colnames(data)&&!'POSIXct'%in%class(data$DATE)){
         data[,1] = as.integer(data[,1])
         data$DATE = as.POSIXct(sprintf('%5.5i',data$DATE),format='%y%j')
     }else if(all(c('WEYR','WEDAY')%in%colnames(data))){
