@@ -11,7 +11,6 @@ read.dssat <- function(file.name,fmt.list=NULL){
     trts = grep('TREATMENT',out)
     trts = as.integer(substr(out[trts],11,13))
     runs = as.integer(substr(out[stars][substr(out[stars],2,4)=='RUN'],6,8))
-    dssat.lines = grep('DSSAT',out)
     tier = vector(length=length(hlines),mode='list')
     for(i in 1:length(hlines)){
         if(i==length(hlines)){
@@ -20,7 +19,8 @@ read.dssat <- function(file.name,fmt.list=NULL){
             end = min(c(stars[stars>hlines[i]][1]-1,hlines[i+1]-1))
         }
         check = out[(hlines[i]+1):end]
-        nrows = length(check[substr(check,1,1)!='!'&nchar(check)>0])
+        nrows = length(check[substr(check,1,1)!='!'&
+                            nchar(gsub('^  *','',gsub('  *$','',check)))>0])
         tier[[i]] = read.tier(out[hlines[i]],hlines[i],nrows,
                 file.name=file.name,fmt.list=fmt.list)
         if(!'RUN'%in%colnames(tier[[i]])) tier[[i]]$RUN=runs[i]
