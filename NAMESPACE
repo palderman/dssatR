@@ -89,5 +89,6 @@ write.fmt,
 extract.first.tier,
 read.filea,
 read.filet,
-extract.gen
+extract.gen,
+ex.p
        )

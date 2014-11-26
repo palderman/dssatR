@@ -24,6 +24,7 @@ read.gen <- function(file.name,model=NULL,type=NULL){
     title = gen[first.char=='*']
     comments = gen[first.char=='!']
     hlines = grep('@',gen)
+    hlines = hlines[substr(gen[hlines],1,1)!='!']
 #    header = lapply(gen[hlines],FUN=function(x){
 #                  x=strsplit(x,split='  *')[[1]]
 #                  x=gsub('@','',gsub('\\.','',x))

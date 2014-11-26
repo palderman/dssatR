@@ -7,8 +7,8 @@ ceres.fmt <- function(){
             'TDFAC','RDGS','AWNS','GN%S','GN%MN','G3'),
         `%6.2f`=c('P2FR1','P4FR1','P4FR2','LAFV','LAFR','KCAN'),
         `%6s`=c('EXPNO','EXP#'),
-        `-7s`=c('@ECO#','@VAR#'),
-        `7s`=c('ECO#','VAR#'),
+        `%-7s`=c('@ECO#','@VAR#'),
+        `%7s`=c('ECO#','VAR#'),
         `%-16s`=c('VAR-NAME........')
         )
     return(fmt)
