@@ -13,6 +13,7 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
         filet=get('filet')
     }else{
         plotfilet=rep(0,length(trno))%*%t(rep(0,length(variable)))
+        filet=NULL
         warning('File T has not been loaded.')
     }
     if ('SQNO'%in%colnames(output)){
@@ -22,7 +23,22 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
         TRSQ = 'TRNO'
         trsq = trno
     }
-    if(is.null(trsq)) trsq = as.integer(as.character(levels(as.factor(output[,TRSQ]))))
+    if(is.null(trsq))
+        trsq = as.integer(as.character(levels(as.factor(output[,TRSQ]))))
+    output = output[,c(TRSQ,'DATE',variable)]
+    if(length(variable)>1){
+        ord.adj = unlist(lapply(output[,variable],
+            function(x){ceiling(log10(max(x)))}))
+        ord.adj = 10^abs(ord.adj-max(ord.adj))
+        for(i in 1:length(variable)){
+            if(ord.adj[i]>1){
+                output[,variable[i]]=output[,variable[i]]*ord.adj[i]
+                colnames(output)[colnames(output)==variable[i]]=
+                    sprintf('%sx%i',variable[i],ord.adj[i])
+                variable[i]=sprintf('%sx%i',variable[i],ord.adj[i])
+            }
+        }
+    }
     if(!is.null(xlim)&is.character(xlim)) xlim = as.POSIXct(xlim,format='%Y%j')
     if(!exists('plotfilet')){
         plotfilet = trsq%in%filet[,TRSQ]%*%t(variable%in%colnames(filet))==1
@@ -67,11 +83,11 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
                 if (grepl('.tif',file)) tiff(filename=file)
                 if (grepl('.eps',file)) postscript(filename=file)
             }
-            dev.scale = dev.size()[2]/6.99311
+            dev.scale = par('fin')[2]/6.99311
             par(mgp=c(3,1,0)*dev.scale)
             par(mar=c(2,2,2,.5))
             if(cimmyt) par(mar=c(4,5,2,1))
-            if(variable=='PHAN') par(mar=par('mar')*c(1,2,1,1))
+            if('PHAN'%in%variable) par(mar=par('mar')*c(1,2,1,1))
             if(is.null(xlab)){
                 if(use.dap){
                     xlab = 'DAP'
@@ -132,7 +148,7 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
                         legend = leglab,cex=1.3*dev.scale,
                         lwd=2*dev.scale)
     }
-    if(!is.null(subplot)) mtext(subplot,side=3,at=xlim[2],adj=1,padj=0,line=-.5,cex=3*dev.scale)
+    if(!is.null(subplot)) mtext(subplot,side=3,at=xlim[2],adj=0.75,padj=0,line=0,cex=3*dev.scale)
     if(is.null(yincrement)) yincrement = get.increment(ylim)
     if(is.null(yaxis.lab)) {
         axis(2,at=seq(ylim[1],ylim[2],yincrement),pos=xlim[1],cex.axis=1.5*dev.scale,las=las)

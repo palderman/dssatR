@@ -1,5 +1,6 @@
 fill.missing.vals <- function(data,fill.from){
-    missing = data[!complete.cases(data),]
+    ind = Reduce('|',lapply(data,is.na))
+    missing = data[ind,]
     if(nrow(missing)>0){
         for(i in 1:nrow(missing)){
             for(j in 1:ncol(missing)){
@@ -11,6 +12,6 @@ fill.missing.vals <- function(data,fill.from){
             }
         }
     }
-    data[!complete.cases(data),] = missing
+    data[ind,] = missing
     return(data)
 }

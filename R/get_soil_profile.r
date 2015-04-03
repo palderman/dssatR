@@ -44,6 +44,7 @@ get.soil.profile <- function(soil_id,filename){
                                 gsub('@',' ',soil[line1])),
                                 split='!'))
         colnames(temp) = cnames[cnames!='']
+        temp = temp[,!is.na(colnames(temp))]
         if(i>1){
             soil.profile$layer=merge(soil.profile$layer,temp,by='SLB',all=T)
         }else{

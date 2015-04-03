@@ -1,8 +1,5 @@
 read.dssat <- function(file.name,fmt.list=NULL){
     ftype = tolower(gsub('\\.OUT','',basename(file.name)))
-    if(is.null(fmt.list)){
-        fmt.list = eval(parse(text=paste('fmt.',ftype,'()',sep='')))
-    }
     out = readLines(file.name)
     first.char = substr(out,1,1)
     stars = grep('^\\*',out)
@@ -21,6 +18,13 @@ read.dssat <- function(file.name,fmt.list=NULL){
         check = out[(hlines[i]+1):end]
         nrows = length(check[substr(check,1,1)!='!'&
                             nchar(gsub('^  *','',gsub('  *$','',check)))>0])
+        if(is.null(fmt.list)){
+            if(exists(paste('fmt.',ftype,sep=''))){
+                fmt.list = eval(parse(text=paste('fmt.',ftype,'()',sep='')))
+            }else{
+                fmt.list = guess.fmt(out[hlines[i]:(hlines[i]+nrows)])
+            }
+        }
         tier[[i]] = read.tier(out[hlines[i]],hlines[i],nrows,
                 file.name=file.name,fmt.list=fmt.list)
         if(!'RUN'%in%colnames(tier[[i]])) tier[[i]]$RUN=runs[i]

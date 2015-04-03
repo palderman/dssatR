@@ -1,4 +1,4 @@
-read.weather <- function(file.name,nasapower=FALSE){
+read.weather <- function(file.name,type=NULL){
     tmp = readLines(file.name)
     first.char = substr(tmp,1,1)
     title = tmp[first.char=='*']
@@ -13,8 +13,10 @@ read.weather <- function(file.name,nasapower=FALSE){
         check = tmp[(hlines[i]+1):end]
         nrows = length(check[substr(check,1,1)!='!'&
             nchar(gsub('  *','',check))>0])
-	if(nasapower){
+	if(!is.null(type)&&type=='nasa'){
             fmt.list = fmt.nasapower()
+	}else if(!is.null(type)&&type=='agmip'){
+            fmt.list = fmt.agmip.wth()
         }else{
             fmt.list = fmt.default()
         }

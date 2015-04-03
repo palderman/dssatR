@@ -8,6 +8,8 @@ expand.missing.dates <- function(data,first=NULL,last=NULL){
         last = as.POSIXct(last)        
     }
     all.dates = data.frame(DATE=seq(first,last,'day'))
+    data$DATE=round(data$DATE,'days')
+    all.dates$DATE=round(all.dates$DATE,'days')
     data = merge(data,all.dates,all=TRUE)
     return(data)
 }
