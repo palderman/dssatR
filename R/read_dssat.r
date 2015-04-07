@@ -25,8 +25,15 @@ read.dssat <- function(file.name,fmt.list=NULL){
                 fmt.list = guess.fmt(out[hlines[i]:(hlines[i]+nrows)])
             }
         }
-        tier[[i]] = read.tier(out[hlines[i]],hlines[i],nrows,
-                file.name=file.name,fmt.list=fmt.list)
+        tmp = try(read.tier(out[hlines[i]],hlines[i],nrows,
+                file.name=file.name,fmt.list=fmt.list))
+        if(class(tmp)!='try-error'){
+            tier[[i]] = tmp
+        }else{
+             fmt.list = guess.fmt(out[hlines[i]:(hlines[i]+nrows)])
+             tier[[i]] = read.tier(out[hlines[i]],hlines[i],nrows,
+                 file.name=file.name,fmt.list=fmt.list)
+         }
         if(!'RUN'%in%colnames(tier[[i]])) tier[[i]]$RUN=runs[i]
         if(!'TRNO'%in%colnames(tier[[i]])) tier[[i]]$TRNO=trts[i]
         if('DOY'%in%colnames(tier[[i]])) tier[[i]]=year.doy.to.date(tier[[i]])
