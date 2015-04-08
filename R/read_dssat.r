@@ -26,7 +26,7 @@ read.dssat <- function(file.name,fmt.list=NULL){
             }
         }
         tmp = try(read.tier(out[hlines[i]],hlines[i],nrows,
-                file.name=file.name,fmt.list=fmt.list))
+                file.name=file.name,fmt.list=fmt.list),silent=TRUE)
         if(class(tmp)!='try-error'){
             tier[[i]] = tmp
         }else{
@@ -56,6 +56,11 @@ read.dssat <- function(file.name,fmt.list=NULL){
         tier = tier[,
             c(c('RUN','TRNO','DATE'),
             colnames(tier)[!colnames(tier)%in%c('RUN','TRNO','DATE')])]
+    }
+    if('DATE'%in%colnames(tier)){
+        tier = tier[order(tier$RUN,tier$DATE),]
+    }else{
+        tier = tier[order(tier$RUN),]
     }
     return(tier)
 }
