@@ -34,7 +34,7 @@ read.dssat <- function(file.name,fmt.list=NULL){
              tier[[i]] = read.tier(out[hlines[i]],hlines[i],nrows,
                  file.name=file.name,fmt.list=fmt.list)
          }
-        if(!'RUN'%in%colnames(tier[[i]])) tier[[i]]$RUN=runs[i]
+        if(!any(c('RUN','RUNNO')%in%colnames(tier[[i]]))) tier[[i]]$RUN=runs[i]
         if(!'TRNO'%in%colnames(tier[[i]])) tier[[i]]$TRNO=trts[i]
         if('DOY'%in%colnames(tier[[i]])) tier[[i]]=year.doy.to.date(tier[[i]])
     }
@@ -53,14 +53,9 @@ read.dssat <- function(file.name,fmt.list=NULL){
     }
     if(is.list(tier)&!is.data.frame(tier)) tier = tier[[1]]
     if(all(c('RUN','TRNO','DATE')%in%colnames(tier))){
-        tier = tier[,
+        tier = tier[order(tier$RUN,tier$DATE),
             c(c('RUN','TRNO','DATE'),
             colnames(tier)[!colnames(tier)%in%c('RUN','TRNO','DATE')])]
-    }
-    if('DATE'%in%colnames(tier)){
-        tier = tier[order(tier$RUN,tier$DATE),]
-    }else{
-        tier = tier[order(tier$RUN),]
     }
     return(tier)
 }

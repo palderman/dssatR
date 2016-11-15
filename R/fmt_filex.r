@@ -5,7 +5,7 @@ fmt.filex <- function(){
                         'N','O','P','R','T'),
         `%2s`=c('CR'),
         ` %4s`=c('SLTX'),
-        ` %-5s`=c('ECO2','EDAY','EDEW','EMAX','EMIN','ERAD','ERAIN','EWIND'),
+        ` %-6s`=c('ECO2','EDAY','EDEW','EMAX','EMIN','ERAD','ERAIN','EWIND'),
         `%6.0f`=c('PLDR','FAMC','FAMK','FAMN','FAMO','FAMP','FLOB','FLSA',
             'FLST','FDEP','FLDD','FLDS','IAMT','ICBL','ICND','ICRT','IDEP',
             'IEPT','ITHR','ITHRL','ITHRU','PAGE','PLRD','PLRS','PLSP','PLWT',
