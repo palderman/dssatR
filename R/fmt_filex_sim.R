@@ -9,7 +9,7 @@ fmt.filex.sim = function(){
             'INFIL','PHOTO','HYDRO','MESOM','MESEV','PLANT','IRRIG','FERTI',
             'RESID','HARVS','FNAME','OVVEW','SUMRY','FROPT','GROUT','CAOUT',
             'WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT','OPOUT','IROFF',
-            'IMETH','NCODE','NAOFF'),
+            'IMETH','NCODE','NAOFF','VBOSE'),
         `%6i` = c('NSWIT','MESOL','FROPT'),
         `%6yrdoy` = c('SDATE','PFRST','PLAST','HFRST','HLAST'),
         ` %-11s` = c('GENERAL','OPTIONS','METHODS','MANAGEMENT','OUTPUTS',
