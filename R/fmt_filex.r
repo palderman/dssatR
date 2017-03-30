@@ -21,7 +21,7 @@ fmt.filex <- function(){
             'IOFF','IROP','PCR','PLAY','PLDS','PLME','RCOD','SMHB','SMKE',
             'SMPX','TIMPL'),
         ` %6s`=c('INGENO'),
-        `%6date`=c('EDATE','PDATE','ODATE','FDATE','HDATE','ICDAT','IDATE',
+        `%6yrdoy`=c('EDATE','PDATE','ODATE','FDATE','HDATE','ICDAT','IDATE',
             'RDATE','SADAT','TDATE'),
         `%7.1f`=c('PAREA'),
         ` %8s`=c('ID_FIELD','WSTA....','WSTA'),
