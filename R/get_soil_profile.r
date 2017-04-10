@@ -3,7 +3,7 @@ get.soil.profile <- function(soil_id,filename){
     soil = soil[grep(soil_id,soil):length(soil)]
     soil = soil[!substr(soil,1,1)=='!']
     soil = soil[!soil==''&!grepl('^[[:space:]]$',soil)]
-    nextprof = grep('^\\*',soil[2:length(soil)])
+    nextprof = grep('^\\*',soil)[-1]
     if(length(nextprof)>0) soil = soil[1:(nextprof[1]-1)]
     soil.profile = create.soil.profile(empty=T)
     soil.profile$ID_SOIL = trim(substr(soil[1],2,11))
