@@ -26,6 +26,13 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
     if(is.null(trsq))
         trsq = as.integer(as.character(levels(as.factor(output[,TRSQ]))))
     output = output[,c(TRSQ,'DATE',variable)]
+    if(!is.null(xlim)){
+        if(is.character(xlim)) xlim = as.POSIXct(xlim)
+        output = output[output$DATE>=xlim[1]&
+                        output$DATE<=xlim[2],]
+        filet = filet[filet$DATE>=xlim[1]&
+                      filet$DATE<=xlim[2],]
+    }
     if(length(variable)>1){
         ord.adj = unlist(lapply(output[,variable],
             function(x){ceiling(log10(max(x)))}))

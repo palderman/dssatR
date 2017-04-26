@@ -38,7 +38,7 @@ read.gen <- function(file.name,model=NULL,type=NULL){
             end = hlines[i+1]-1
         }
         check = gen[(hlines[i]+1):end]
-        nrows = length(check[substr(check,1,1)!='!'])
+        nrows = length(check[substr(check,1,1)!='!'&check!=''])
         params = read.tier(gen[hlines[i]],hlines[i],nrows,
             file.name=file.name,fmt.list=fmt.list)
         parameters[[i]]=na.omit(params)

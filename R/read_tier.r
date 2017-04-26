@@ -1,5 +1,5 @@
 read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
-    header = gsub('@',' ',header)
+    header = gsub('!.*','',gsub('@',' ',header))
     cnames = strsplit(gsub('@','',header),split='  *')[[1]]
     cnames = cnames[cnames!='']
     pos = vector(length=length(cnames),mode='list')
@@ -19,12 +19,12 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
         }
     }
     vars = try(read.fwf(file.name,widths=widths,skip=l1,nrow=nrows,
-        colClasses=class,comment.char='!',
+        comment.char='!',blank.lines.skip=TRUE,
         na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
         header=FALSE,fill=TRUE),silent=TRUE)
     if(class(vars)=='try-error'){
         vars = read.table(file.name,skip=l1,nrow=nrows,
-            colClasses=class,comment.char='!',blank.lines.skip=TRUE,
+            comment.char='!',blank.lines.skip=TRUE,
             na.strings=c('-99','-99.','-99.0','-99.00',substring('********',1,1:8)),
             header=FALSE,fill=TRUE)
     }
