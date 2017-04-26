@@ -1,7 +1,7 @@
 read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
     header = gsub('!.*','',gsub('@',' ',header))
     cnames = strsplit(gsub('@','',header),split='  *')[[1]]
-    cnames = cnames[cnames!='']
+    cnames = gsub('\\.*','',cnames[cnames!=''])
     pos = vector(length=length(cnames),mode='list')
     fmt = vector(length=length(cnames),mode='character')
     if(is.null(fmt.list)) fmt.list = fmt.default()
