@@ -37,7 +37,11 @@ read.weather <- function(file.name,type=NULL){
     }
     if('DATE'%in%colnames(data)&&!'POSIXct'%in%class(data$DATE)){
         data[,1] = as.integer(data[,1])
-        data$DATE = as.POSIXct(sprintf('%5.5i',data$DATE),format='%y%j')
+        date <- as.integer(data$DATE)
+        yr <- date %/% 1000
+        date[yr>=0&yr<=tail(yr,1)] <-  date[yr>=0&yr<=tail(yr,1)] + 2000000
+        date[yr>(yr,1)] <-  date[yr>tail(yr,1)] + 1900000
+        data$DATE <- as.POSIXct(as.character(date),format='%Y%j')
     }else if(all(c('WEYR','WEDAY')%in%colnames(data))){
         cnames = colnames(data)
         DATE = as.POSIXct(
@@ -45,12 +49,6 @@ read.weather <- function(file.name,type=NULL){
             format='%Y%j')
         data = data[,!cnames%in%c('WEYR','WEDAY')]
         data = data.frame(DATE=DATE,data)
-    }
-    if(head(data$DATE,1)>tail(data$DATE,1)){
-        date <- as.POSIXlt(data$DATE)
-        yr <- date$year
-        date$year[yr<=tail(yr,1)] = yr + 100
-        data$DATE <- as.POSIXct(date)
     }
 #    data[data < -90] = NA
     weather = list(title=title,station.info=station.info,data=data)
