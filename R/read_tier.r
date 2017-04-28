@@ -37,13 +37,14 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
                 date[yr>=0&yr<=tail(yr,1)] <-  date[yr>=0&yr<=tail(yr,1)] + 2000000
                 date[yr>tail(yr,1)] <-  date[yr>tail(yr,1)] + 1900000
                 vars[,i] <- as.POSIXct(as.character(date),format='%Y%j')
-                vars[,i] = as.numeric(vars[,i])
-            }else if(vars[1,i]%/%1000<30){
-                vars[,i]=sprintf('%7i',vars[,i]+2000000)
             }else{
-                vars[,i]=sprintf('%7i',vars[,i]+1900000)
+                if(vars[1,i]%/%1000<30){
+                    vars[,i]=sprintf('%7i',vars[,i]+2000000)
+                }else{
+                    vars[,i]=sprintf('%7i',vars[,i]+1900000)
+                }
+                vars[,i] = as.POSIXct(as.character(vars[,i]),format='%Y%j')
             }
-            vars[,i] = as.POSIXct(vars[,i],format='%Y%j')
         }
     }
     if(any(grepl('yeardoy',fmt))){
