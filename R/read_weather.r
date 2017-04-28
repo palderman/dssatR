@@ -40,7 +40,7 @@ read.weather <- function(file.name,type=NULL){
         date <- as.integer(data$DATE)
         yr <- date %/% 1000
         date[yr>=0&yr<=tail(yr,1)] <-  date[yr>=0&yr<=tail(yr,1)] + 2000000
-        date[yr>(yr,1)] <-  date[yr>tail(yr,1)] + 1900000
+        date[yr>tail(yr,1)] <-  date[yr>tail(yr,1)] + 1900000
         data$DATE <- as.POSIXct(as.character(date),format='%Y%j')
     }else if(all(c('WEYR','WEDAY')%in%colnames(data))){
         cnames = colnames(data)
