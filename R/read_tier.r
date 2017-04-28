@@ -31,8 +31,14 @@ read.tier <- function(header,l1,nrows,file.name,fmt.list=NULL){
     colnames(vars)=cnames
     if(any(grepl('yrdoy',fmt))){
         for(i in (1:ncol(vars))[grepl('yrdoy',fmt)]){
-            vars[,i] = as.numeric(vars[,i])
-            if(floor(vars[1,i]/1000)<30){
+            date <- as.integer(vars[,i])
+            yr <- date %/% 1000
+            if(tail(yr,1)<head(yr,1)){
+                date[yr>=0&yr<=tail(yr,1)] <-  date[yr>=0&yr<=tail(yr,1)] + 2000000
+                date[yr>tail(yr,1)] <-  date[yr>tail(yr,1)] + 1900000
+                vars[,i] <- as.POSIXct(as.character(date),format='%Y%j')
+                vars[,i] = as.numeric(vars[,i])
+            }else if(vars[1,i]%/%1000<30){
                 vars[,i]=sprintf('%7i',vars[,i]+2000000)
             }else{
                 vars[,i]=sprintf('%7i',vars[,i]+1900000)
