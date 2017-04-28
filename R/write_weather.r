@@ -7,7 +7,7 @@ write.weather <- function(weather,filename=NA){
     tmp = vector(length=nrow(weather$data)+5,mode='character')
     tmp[1] = paste('*WEATHER DATA :',weather$title)
     tmp[2] = ''
-    tmp[3] = paste(c('@',sprintf(c('%5s',rep('%9s',2),rep('%6s',5)),colnames(weather$station.info))),collapse='')
+    tmp[3] = paste(c('@',sprintf(c('%5s',rep('%9s',2),rep('%6s',6)),colnames(weather$station.info))),collapse='')
     fmt = c('%6s',rep('%9.3f',2),'%6.0f',rep('%6.1f',2),rep('%6.2f',2))
     for (i in 1:ncol(weather$station.info)){
         weather$station.info[,i] = gsub(' NA','-99',sprintf(fmt[i],weather$station.info[,i]))
