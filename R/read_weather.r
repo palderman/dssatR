@@ -46,7 +46,7 @@ read.weather <- function(file.name,type=NULL){
         data = data[,!cnames%in%c('WEYR','WEDAY')]
         data = data.frame(DATE=DATE,data)
     }
-    if(head(data$DATE,1)>tail(data$DATE,1){
+    if(head(data$DATE,1)>tail(data$DATE,1)){
         date <- as.POSIXlt(data$DATE)
         yr <- date$year
         date$year[yr<=tail(yr,1)] = yr + 100
