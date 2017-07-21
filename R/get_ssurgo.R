@@ -12,5 +12,5 @@ get.ssurgo.data <- function(lat,lon,variables=''){
                   "ORDER BY comppct_r DESC,compname,hzdept_r ASC"
                   )
     soil <- SDA_query(query)
-    return(na.omit(soil))
+    return(soil)
 }
