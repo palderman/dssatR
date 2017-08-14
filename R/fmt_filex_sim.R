@@ -14,7 +14,7 @@ fmt.filex.sim = function(){
         `%6yrdoy` = c('SDATE','PFRST','PLAST','HFRST','HLAST'),
         ` %-11s` = c('GENERAL','OPTIONS','METHODS','MANAGEMENT','OUTPUTS',
             'PLANTING','IRRIGATION','NITROGEN','RESIDUES','HARVEST'),
-        ` %s` = c('SNAME')
+        ` %s` = c('SNAME','SMODEL')
         )
     return(fmt)
 }
