@@ -3,7 +3,7 @@ get.sim.controls <- function(filex.name=NULL,level=NULL,filex=NULL){
                                 stop('No file name or filex supplied')}
     sect.name = 'SIMULATION CONTROLS'
     if(is.null(filex)) filex = readLines(filex.name)
-    filex = filex[!substr(filex,1,1)=='!']
+    filex = filex[!substr(filex,1,1)=='!'&filex!='@  AUTOMATIC MANAGEMENT']
     sect.heading = grep(paste('\\*',sect.name,sep=''),filex)
     section = vector('list',length=length(sect.heading))
     for(i in 1:length(sect.heading)){
@@ -15,6 +15,7 @@ get.sim.controls <- function(filex.name=NULL,level=NULL,filex=NULL){
         }
         section[[i]] = read.section(filex[sect.heading[i]:next.heading])
     }
+    section <- Reduce(function(...)merge(...,by='N',all=TRUE),section)
     return(section)
 }
 

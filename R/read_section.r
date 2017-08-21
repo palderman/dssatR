@@ -1,14 +1,14 @@
 read.section <- function(file){
     file = file[!file==''&!grepl('^[[:space:]]$',file)]
     headers = grep('@',file)
-    section = vector('list',length(headers)+1)
-    section[[1]] = file[1]
-    for(i in 2:length(section)){
+    section = vector('list',length(headers))
+#    section[[1]] = file[1]
+    for(i in 1:length(section)){
         if(i<length(section)){
-            begin = headers[i-1]
-            end = (headers[i]-1)
+            begin = headers[i]
+            end = (headers[i+1]-1)
         }else{
-            begin = headers[i-1]
+            begin = headers[i]
             end = length(file)
         }
         if(begin<end){

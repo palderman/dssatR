@@ -1,0 +1,14 @@
+lncode <- function(section){
+  code <- switch(section,
+    'INITIAL CONDITIONS'='LNIC',
+    'IRRIGATION AND WATER MANAGEMENT'='LNIR',
+    'TILLAGE AND ROTATIONS'='LNTIL',
+    'CHEMICAL APPLICATIONS'='LNCHE',
+    'RESIDUES AND OTHER ORGANIC MATERIALS'='LNRES',
+    'FERTILIZERS'='LNFER',
+    'HARVEST DETAILS'='LNHAR',
+    'ENVIRONMENT MODIFICATIONS'='LNENV',
+    ''
+  )
+  return(code)
+}

@@ -16,8 +16,20 @@ read.filex <- function(filex.name){
         if(!sectnames[i]=='SIMULATION CONTROLS'){
             filex[[i+1]]=get.section(sectnames[i],file=flx[2:length(flx)])
         }else{
-            filex[[i+1]]=get.sim.controls(filex=flx[2:length(flx)])
+            filex[[i+1]] <- get.sim.controls(filex=flx[2:length(flx)])
+            filex[[i+1]] <- lapply(filex[[i+1]],function(s){
+                cnames <- colnames(s)
+                cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
+                                          'OUTPUTS','PLANTING','IRRIGATION',
+                                          'NITROGEN','RESIDUES','HARVEST')]
+                return(s[,cnames])
+            })
         }
+      if(!sectnames[i]%in%c('INITIAL CONDITIONS',
+                            'IRRIGATION AND WATER MANAGEMENT')&
+         !is.data.frame(filex[[i+1]])){
+        filex[[i+1]] <- Reduce(function(...)merge(...,all=TRUE),filex[[i+1]])
+      }
     }
     names(filex) = gsub('^\\*','',
                         gsub('      *.*','',
