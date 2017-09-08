@@ -2,7 +2,7 @@ get.slro <- function(hyd.group,slope){
 
     hyd.group <- substr(hyd.group,1,1)
 
-    if(slope<0|!hyd.group%in%c('A','B','C','D')) return(NA)
+    if(is.na(slope)|slope<0|!hyd.group%in%c('A','B','C','D')) return(NA)
 
     slro <- matrix(c(61,73,81,84,
                      64,76,84,87,
