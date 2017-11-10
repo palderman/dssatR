@@ -9,7 +9,7 @@ ceres.fmt <- function(){
         `%6s`=c('EXPNO','EXP#'),
         `%-7s`=c('@ECO#','@VAR#'),
         `%7s`=c('ECO#','VAR#'),
-        `%-16s`=c('VAR-NAME........')
+        `%-16s`=c('VAR-NAME')
         )
     return(fmt)
 }
