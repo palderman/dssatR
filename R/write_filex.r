@@ -1,59 +1,147 @@
 write.filex <- function(filex,filex.name){
-#    nlines = nlines.filex(filex)
-#    flx.lines = vector(length=nlines,mode='character')
-    write(filex[[1]],filex.name)
-#    flx.lines[1] = filex[[1]]
-#    flx.lines[2] = ''
-#    linenum = 2
-    fmt.list = fmt.filex()
-    for (i in 2:length(filex)){
-        if(names(filex)[i]=='GENERAL'){
-            fmt.tmp = fmt.filex.gen()
-        }else if(names(filex)[i]=='TREATMENTS'){
-            fmt.tmp = fmt.filex.trt()
-        }else if(names(filex)[i]=='CULTIVARS'){
-            fmt.tmp = fmt.filex.cul()
-        }else if(names(filex)[i]=='FIELDS'){
-            fmt.tmp = fmt.filex.fld()
-        }else if(names(filex)[i]=='PLANTING DETAILS'){
-            fmt.tmp = fmt.filex.plt()
-        }else if(names(filex)[i]=='HARVEST DETAILS'){
-            fmt.tmp = fmt.filex.harv()
-        }else if(names(filex)[i]=='ENVIRONMENT MODIFICATIONS'){
-            fmt.tmp = fmt.filex.env()
-        }else if(names(filex)[i]=='IRRIGATION AND WATER MANAGEMENT'){
-            fmt.tmp = fmt.filex.irr()
-        }else if(names(filex)[i]=='SIMULATION CONTROLS'){
-            fmt.tmp = fmt.filex.sim()
-        }else{
-            fmt.tmp = fmt.filex()
-        }
-        if(i>1) write('',filex.name,append=TRUE)
-        for(j in 1:length(filex[[i]])){
-            if(!grepl('SIMULATION CONTROLS',names(filex)[i])){
-#                sub.lines = write.subsection(filex[[i]][[j]])
-                write.tier(filex[[i]][[j]],file.name=filex.name,
-                           fmt.list=fmt.tmp)
-#                flx.lines[(linenum+1):
-#                                (linenum+length(sub.lines))] = sub.lines
-#                linenum = linenum + length(sub.lines)
-            }else{
-                for(k in 1:length(filex[[i]][[j]])){
-#                    sub.lines = write.subsection(filex[[i]][[j]][[k]])
-                    write.tier(filex[[i]][[j]][[k]],file.name=filex.name,
-                               fmt.list=fmt.tmp)
-#                    flx.lines[(linenum+1):
-#                                (linenum+length(sub.lines))] = sub.lines
-#                    linenum = linenum + length(sub.lines)
-                }
-#                linenum = linenum + 1
-#                flx.lines[linenum] = ''
-            }
-        }
-#        linenum = linenum + 1
-#        flx.lines[linenum] = ''
+    write(filex$EXP.DETAILS,filex.name)
+    fmt.list <- fmt.filex()
+    write('',filex.name,append=TRUE)
+    if('GENERAL'%in%names(filex)){
+      write('*GENERAL',filex.name,append=TRUE)
+      write(c('@PEOPLE',unique(as.character(filex$GENERAL$PEOPLE))),
+            filex.name,append = TRUE)
+      write(c('@ADDRESS',unique(as.character(filex$GENERAL$ADDRESS))),
+            filex.name,append = TRUE)
+      write(c('@SITE',unique(as.character(filex$GENERAL$SITE))),
+            filex.name,append = TRUE)
+      write(c('@NOTES',unique(as.character(filex$GENERAL$NOTES)),''),
+            filex.name,append = TRUE)
     }
-#    write(flx.lines,file=filex.name)
+    if('TREATMENTS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.trt()
+      write('*TREATMENTS',filex.name,append=TRUE)
+      write.tier(filex$TREATMENTS,file.name=filex.name,
+                 fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('CULTIVARS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.cul()
+      write('*CULTIVARS',filex.name,append=TRUE)
+      write.tier(filex$CULTIVARS,file.name=filex.name,
+                 fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('FIELDS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.fld()
+      write('*FIELDS',filex.name,append=TRUE)
+      first <- c('L','ID_FIELD','WSTA','FLSA','FLOB','FLDT','FLDD',
+                  'FLDS','FLST','SLTX','SLDP','ID_SOIL','FLNAME')
+      second <- c('L','XCRD','YCRD','ELEV','AREA','SLEN','FLWR','SLAS')
+      write.tier(filex$FIELDS[,first],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+      write.tier(filex$FIELDS[,second],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('INITIAL CONDITIONS'%in%names(filex)){
+      fmt.tmp <- fmt.filex()
+      write('*INITIAL CONDITIONS',filex.name,append=TRUE)
+      write.tier(filex$`INITIAL CONDITIONS`[[1]],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+      write.tier(filex$`INITIAL CONDITIONS`[[2]],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('PLANTING DETAILS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.plt()
+      write('*PLANTING DETAILS',filex.name,append=TRUE)
+      write.tier(filex$`PLANTING DETAILS`,
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('IRRIGATION AND WATER MANAGEMENT'%in%names(filex)){
+      fmt.tmp <- fmt.filex.irr()
+      write('*IRRIGATION AND WATER MANAGEMENT',filex.name,append=TRUE)
+      write.tier(filex$`IRRIGATION AND WATER MANAGEMENT`[[1]],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+      write.tier(filex$`IRRIGATION AND WATER MANAGEMENT`[[2]],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if(any(c('FERTILIZERS','FERTILIZERS (INORGANIC)')%in%names(filex))){
+      fmt.tmp <- fmt.filex()
+      write('*FERTILIZERS (INORGANIC)',filex.name,append=TRUE)
+      write.tier(filex$`FERTILIZERS`,
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('ENVIRONMENT MODIFICATIONS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.env()
+      write('*ENVIRONMENT MODIFICATIONS',filex.name,append=TRUE)
+      write.tier(filex$`ENVIRONMENT MODIFICATIONS`,
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('HARVEST DETAILS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.harv()
+      write('*HARVEST DETAILS',filex.name,append=TRUE)
+      write.tier(filex$`HARVEST DETAILS`,
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
+    if('SIMULATION CONTROLS'%in%names(filex)){
+      fmt.tmp <- fmt.filex.sim()
+      filex$`SIMULATION CONTROLS`$GENERAL <- 'GE'
+      filex$`SIMULATION CONTROLS`$OPTIONS <- 'OP'
+      filex$`SIMULATION CONTROLS`$METHODS <- 'ME'
+      filex$`SIMULATION CONTROLS`$MANAGEMENT <- 'MA'
+      filex$`SIMULATION CONTROLS`$OUTPUTS <- 'OU'
+      filex$`SIMULATION CONTROLS`$PLANTING <- 'PL'
+      filex$`SIMULATION CONTROLS`$IRRIGATION <- 'IR'
+      filex$`SIMULATION CONTROLS`$NITROGEN <- 'NI'
+      filex$`SIMULATION CONTROLS`$RESIDUES <- 'RE'
+      filex$`SIMULATION CONTROLS`$HARVEST <- 'HA'
+      write('*SIMULATION CONTROLS',filex.name,append=TRUE)
+      first <- c('N','GENERAL','NYERS','NREPS','START','SDATE',
+                 'RSEED','SNAME')
+      write.tier(filex$`SIMULATION CONTROLS`[,first],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      second <- c('N','OPTIONS','WATER','NITRO','SYMBI','PHOSP',
+                  'POTAS','DISES','CHEM','TILL')
+      write.tier(filex$`SIMULATION CONTROLS`[,second],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      third <- c('N','METHODS','WTHER','INCON','LIGHT','EVAPO',
+                 'INFIL','PHOTO','HYDRO','NSWIT','MESOM')
+      write.tier(filex$`SIMULATION CONTROLS`[,third],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      fourth <- c('N','MANAGEMENT','PLANT','IRRIG','FERTI',
+                  'RESID','HARVS')
+      write.tier(filex$`SIMULATION CONTROLS`[,fourth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      fifth <- c('N','OUTPUTS','FNAME','OVVEW','SUMRY','FROPT','GROUT',
+                 'CAOUT','WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT',
+                 'OPOUT')
+      write.tier(filex$`SIMULATION CONTROLS`[,fifth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write(c('','@  AUTOMATIC MANAGEMENT'),filex.name,append=TRUE)
+      sixth <- c('N','PLANTING','PFRST','PLAST','PH2OL','PH2OU',
+                 'PH2OD','PSTMX','PSTMN')
+      write.tier(filex$`SIMULATION CONTROLS`[,sixth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      seventh <- c('N','IRRIGATION','IMDEP','ITHRL','ITHRU','IROFF',
+                   'IMETH','IRAMT','IREFF')
+      write.tier(filex$`SIMULATION CONTROLS`[,seventh],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      eighth <- c('N','NITROGEN','NMDEP','NMTHR','NAMNT','NCODE','NAOFF')
+      write.tier(filex$`SIMULATION CONTROLS`[,eighth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      ninth <- c('N','RESIDUES','RIPCN','RTIME','RIDEP')
+      write.tier(filex$`SIMULATION CONTROLS`[,ninth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      tenth <- c('N','HARVEST','HFRST','HLAST','HPCNP','HPCNR')
+      write.tier(filex$`SIMULATION CONTROLS`[,tenth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+      write('',filex.name,append=TRUE)
+    }
     return(invisible(0))
 }
 
