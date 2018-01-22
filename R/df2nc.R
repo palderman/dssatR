@@ -1,6 +1,10 @@
 df2nc <- function(cul,eco,spe,file.name){
     require(ncdf4)
 
+    cul$`VAR-NAME` <- gsub(' ','',as.character(cul$`VAR-NAME`))
+    cul$`VAR#` <- gsub(' ','',as.character(cul$`VAR#`))
+    eco$`ECO#` <- gsub(' ','',as.character(eco$`ECO#`))
+    
     culdim <- ncdim_def('cul','count',1:nrow(cul))
     varnamedim <- ncdim_def('varnamelen',
                             '',
@@ -18,7 +22,7 @@ df2nc <- function(cul,eco,spe,file.name){
 
     v.list <- list()
 
-    for(v in cul$`VAR#`){
+    for(v in factor(cul$`VAR#`,levels=cul$`VAR#`)){
         v.list[[paste0('CUL',v)]] <- ncvar_def(paste0('CUL',v),
                                  '',
                                  list(),
@@ -49,7 +53,8 @@ df2nc <- function(cul,eco,spe,file.name){
             }
         }
     }
-    for(v in eco$`ECO#`){
+    
+    for(v in factor(eco$`ECO#`,levels=eco$`ECO#`)){
         v.list[[paste0('ECO',v)]] <- ncvar_def(paste0('ECO',v),
                                  '',
                                  list(),
