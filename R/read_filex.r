@@ -17,13 +17,11 @@ read.filex <- function(filex.name){
             filex[[i+1]]=get.section(sectnames[i],file=flx[2:length(flx)])
         }else{
             filex[[i+1]] <- get.sim.controls(filex=flx[2:length(flx)])
-            filex[[i+1]] <- lapply(filex[[i+1]],function(s){
-                cnames <- colnames(s)
-                cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
+            cnames <- colnames(filex[[i+1]])
+            cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
                                           'OUTPUTS','PLANTING','IRRIGATION',
                                           'NITROGEN','RESIDUES','HARVEST')]
-                return(s[,cnames])
-            })
+            filex[[i+1]] <- filex[[i+1]][,cnames]
         }
       if(!sectnames[i]%in%c('INITIAL CONDITIONS',
                             'IRRIGATION AND WATER MANAGEMENT')&

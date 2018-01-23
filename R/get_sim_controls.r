@@ -13,9 +13,10 @@ get.sim.controls <- function(filex.name=NULL,level=NULL,filex=NULL){
         }else{
             next.heading = length(filex)
         }
-        section[[i]] = read.section(filex[sect.heading[i]:next.heading])
+        section[[i]] <- read.section(filex[sect.heading[i]:next.heading])
+        section[[i]] <- Reduce(function(...)merge(...,by='N',all=TRUE),section[[i]])
     }
-    section <- Reduce(function(...)merge(...,by='N',all=TRUE),section)
+    section <- do.call(rbind,section)
     return(section)
 }
 

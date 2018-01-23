@@ -103,44 +103,46 @@ write.filex <- function(filex,filex.name){
       write('*SIMULATION CONTROLS',filex.name,append=TRUE)
       first <- c('N','GENERAL','NYERS','NREPS','START','SDATE',
                  'RSEED','SNAME')
-      write.tier(filex$`SIMULATION CONTROLS`[,first],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       second <- c('N','OPTIONS','WATER','NITRO','SYMBI','PHOSP',
                   'POTAS','DISES','CHEM','TILL')
-      write.tier(filex$`SIMULATION CONTROLS`[,second],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       third <- c('N','METHODS','WTHER','INCON','LIGHT','EVAPO',
                  'INFIL','PHOTO','HYDRO','NSWIT','MESOM')
-      write.tier(filex$`SIMULATION CONTROLS`[,third],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       fourth <- c('N','MANAGEMENT','PLANT','IRRIG','FERTI',
                   'RESID','HARVS')
-      write.tier(filex$`SIMULATION CONTROLS`[,fourth],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       fifth <- c('N','OUTPUTS','FNAME','OVVEW','SUMRY','FROPT','GROUT',
                  'CAOUT','WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT',
                  'OPOUT')
-      write.tier(filex$`SIMULATION CONTROLS`[,fifth],
-                 file.name=filex.name,fmt.list=fmt.tmp)
-      write(c('','@  AUTOMATIC MANAGEMENT'),filex.name,append=TRUE)
       sixth <- c('N','PLANTING','PFRST','PLAST','PH2OL','PH2OU',
                  'PH2OD','PSTMX','PSTMN')
-      write.tier(filex$`SIMULATION CONTROLS`[,sixth],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       seventh <- c('N','IRRIGATION','IMDEP','ITHRL','ITHRU','IROFF',
                    'IMETH','IRAMT','IREFF')
-      write.tier(filex$`SIMULATION CONTROLS`[,seventh],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       eighth <- c('N','NITROGEN','NMDEP','NMTHR','NAMNT','NCODE','NAOFF')
-      write.tier(filex$`SIMULATION CONTROLS`[,eighth],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       ninth <- c('N','RESIDUES','RIPCN','RTIME','RIDEP')
-      write.tier(filex$`SIMULATION CONTROLS`[,ninth],
-                 file.name=filex.name,fmt.list=fmt.tmp)
       tenth <- c('N','HARVEST','HFRST','HLAST','HPCNP','HPCNR')
-      write.tier(filex$`SIMULATION CONTROLS`[,tenth],
+      for (i in 1:nrow(filex$`SIMULATION CONTROLS`)){
+        write.tier(filex$`SIMULATION CONTROLS`[i,first],
                  file.name=filex.name,fmt.list=fmt.tmp)
-      write('',filex.name,append=TRUE)
+        write.tier(filex$`SIMULATION CONTROLS`[i,second],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,third],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,fourth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,fifth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write(c('','@  AUTOMATIC MANAGEMENT'),filex.name,append=TRUE)
+        write.tier(filex$`SIMULATION CONTROLS`[i,sixth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,seventh],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,eighth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,ninth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write.tier(filex$`SIMULATION CONTROLS`[i,tenth],
+                 file.name=filex.name,fmt.list=fmt.tmp)
+        write('',filex.name,append=TRUE)
+      }
     }
     return(invisible(0))
 }
