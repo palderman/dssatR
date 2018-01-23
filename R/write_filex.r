@@ -100,7 +100,6 @@ write.filex <- function(filex,filex.name){
       filex$`SIMULATION CONTROLS`$NITROGEN <- 'NI'
       filex$`SIMULATION CONTROLS`$RESIDUES <- 'RE'
       filex$`SIMULATION CONTROLS`$HARVEST <- 'HA'
-      write('*SIMULATION CONTROLS',filex.name,append=TRUE)
       first <- c('N','GENERAL','NYERS','NREPS','START','SDATE',
                  'RSEED','SNAME')
       second <- c('N','OPTIONS','WATER','NITRO','SYMBI','PHOSP',
@@ -120,6 +119,7 @@ write.filex <- function(filex,filex.name){
       ninth <- c('N','RESIDUES','RIPCN','RTIME','RIDEP')
       tenth <- c('N','HARVEST','HFRST','HLAST','HPCNP','HPCNR')
       for (i in 1:nrow(filex$`SIMULATION CONTROLS`)){
+        write('*SIMULATION CONTROLS',filex.name,append=TRUE)
         write.tier(filex$`SIMULATION CONTROLS`[i,first],
                  file.name=filex.name,fmt.list=fmt.tmp)
         write.tier(filex$`SIMULATION CONTROLS`[i,second],
