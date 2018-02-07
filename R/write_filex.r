@@ -105,7 +105,7 @@ write.filex <- function(filex,filex.name){
       second <- c('N','OPTIONS','WATER','NITRO','SYMBI','PHOSP',
                   'POTAS','DISES','CHEM','TILL')
       third <- c('N','METHODS','WTHER','INCON','LIGHT','EVAPO',
-                 'INFIL','PHOTO','HYDRO','NSWIT','MESOM')
+                 'INFIL','PHOTO','HYDRO','NSWIT','MESOM','MESEV','MESOL')
       fourth <- c('N','MANAGEMENT','PLANT','IRRIG','FERTI',
                   'RESID','HARVS')
       fifth <- c('N','OUTPUTS','FNAME','OVVEW','SUMRY','FROPT','GROUT',
