@@ -3,8 +3,10 @@ Title: R Interface to DSSAT-CSM models
 Version: 0.1
 Date: 2014-04-02
 Author: Phillip D. Alderman
-Maintainer: Phillip D. Alderman <p.alderman@cgiar.org>
+Maintainer: Phillip D. Alderman <phillip.alderman@okstate.edu>
 Description: Interface to the Decision Support System for Agrotechnology
  Transfer-Cropping Systems Model (DSSAT-CSM).  Includes functions to
  create input files, call the model, and read and visualize outputs.
 License: GPL-2
+Imports: Rcpp (>= 0.12.10)
+LinkingTo: Rcpp
