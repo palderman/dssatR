@@ -111,6 +111,9 @@ write.filex <- function(filex,filex.name){
       fifth <- c('N','OUTPUTS','FNAME','OVVEW','SUMRY','FROPT','GROUT',
                  'CAOUT','WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT',
                  'OPOUT')
+      if('VBOSE'%in%colnames(filex$`SIMULATION CONTROLS`)){
+          fifth <- gsub('LONG','VBOSE',fifth)
+      }
       sixth <- c('N','PLANTING','PFRST','PLAST','PH2OL','PH2OU',
                  'PH2OD','PSTMX','PSTMN')
       seventh <- c('N','IRRIGATION','IMDEP','ITHRL','ITHRU','IROFF',
