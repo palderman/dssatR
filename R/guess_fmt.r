@@ -19,6 +19,7 @@ guess.fmt <- function(lines){
     tmp = read.fwf(textConnection(lines[2:length(lines)]),widths=widths,
         colClasses='character',comment.char='!',blank.lines.skip=TRUE,
         header=FALSE)
+    cnames = gsub('\\.','',cnames)
     for(i in 1:length(cnames)){
         if(cnames[i]%in%c('YEAR','DOY','DAS','DAP')){
             fmt[i] = paste('%',widths[i],'i',sep='')

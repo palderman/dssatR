@@ -19,11 +19,15 @@ read.dssat <- function(file.name,fmt.list=NULL){
         nrows = length(check[substr(check,1,1)!='!'&
                             nchar(gsub('^  *','',gsub('  *$','',check)))>0])
         if(is.null(fmt.list)){
-            if(exists(paste('fmt.',ftype,sep=''))){
-                fmt.list = eval(parse(text=paste('fmt.',ftype,'()',sep='')))
-            }else{
+#            if(exists(paste('fmt.',ftype,sep=''))){
+#                fmt.list = eval(parse(text=paste('fmt.',ftype,'()',sep='')))
+#            }else{
+            if(nrows<5){
                 fmt.list = guess.fmt(out[hlines[i]:(hlines[i]+nrows)])
+            }else{
+                fmt.list = guess.fmt(out[hlines[i]:(hlines[i]+5)])
             }
+#            }
         }
         tmp = try(read.tier(out[hlines[i]],hlines[i],nrows,
                 file.name=file.name,fmt.list=fmt.list),silent=TRUE)

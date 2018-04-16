@@ -2,7 +2,9 @@ C read_inp_spe is a combination of code from IPPLNT,IPPHENOL
 
       subroutine for_inp_spe(FILECC,filecc_len,FNPGL,FNPGN,PGREF,LNREF,
      &                       QEREF,SLWREF,TYPPGL,TYPPGN,XLMAXT,YLMAXT,
-     &                       CCNEFF,CICAD,CMXSF,CQESF,PGPATH)
+     &                       CCNEFF,CICAD,CMXSF,CQESF,PGPATH,
+     &                       XLEAF,YLEAF,YSTEM,YSTOR,
+     &                       XLFEST,YLFEST,YSTEST,YSREST)
 
       implicit none
       
@@ -59,6 +61,55 @@ C read_inp_spe is a combination of code from IPPLNT,IPPHENOL
       character(len=2) pgpath
       character(len=8) model
       double precision ccneff, cicad, cmxsf, cqesf
+
+      CHARACTER*3 TYPLMOB, TYPNMOB, TYPSDT
+
+      double precision LRMOB(4), NRMOB(4)
+
+      double precision XLEAF(8), YLEAF(8), YSTEM(8), YSTOR(8)
+      double precision XLFEST(8), YLFEST(8), YSREST(8), YSTEST(8)
+      double precision XVGROW(6), YVGROW(6), YVREF(6)
+      double precision XSLATM(10), YSLATM(10), XTRFAC(10), YTRFAC(10),
+     &    XXFTEM(10), YXFTEM(10)
+      double precision FNSDT(4)
+      double precision CARMIN, LIPOPT, LIPTB, SLOSUM
+      double precision SLAVAR, SLAREF, FINREF
+      double precision AGRSH2, AGRRT, AGRSTM, FRLFF, FRSTMF
+      double precision AGRLF, AGRSD1, AGRSD2, AGRVG, AGRVG2,
+     &  CDMREP, CDMSD, CDMSDR, CDMTOT,
+     &  CDMVEG, DRPP, DUMFAC, DXR57, F,
+     &  FNINL, FNINR, FNINS, FNINSD, FNINSH,
+     &  FRACDN, FRLF, FRLFMX,
+     &  FRRT, FRSTM, FVEG,
+     &  GDMSD, GDMSDR,
+     &  GROMAX, GRRAT1, LAGSD, LNGPEG, LNGSH,
+     &  NDMNEW, NDMOLD, NDMREP,
+     &  NDMSD, NDMSDR, NDMSH, NDMTOT, NDMVEG,
+     &  NMINEP, NMOBMX, NMOBR, NRCVR, NSTRES,NRATIO,
+     &  NVSMOB,
+     &  PAR, PCNL, PCNRT, PCNST,
+     &  PGAVL,
+     &  PROLFF, 
+     &  PRORTF, PROSTF,
+     &  RPROAV, RTWT, SDGR,
+     &  SDLIP, SDPRO, SDVAR, SHLAG, SHVAR,
+     &  SIZELF, SIZREF, SLAMN, SLAMX, SLAPAR,
+     &  SRMAX, STMWT, SWFAC, TAVG, TDUMX,
+     &  SIZRAT, TDUMX2,
+     &  TURADD, TURFAC, TURSLA, TURXFR,
+     &  VSSINK, VSTAGE, WCRLF, WCRRT, WCRST, WNRLF,
+     &  WNRRT, WNRSH, WNRST, WTLF, XFRMAX,
+     &  XFRT, XFRUIT, XPOD
+      double precision AGRSTR, FNINSR, FRSTR, WLIDOT, 
+     &    FRSTRF, FRSTRM, FRSTRMX, NMOBSR, NMOBSRN, NMOBSRX, 
+     &    NVSTSR, PCNSR, PPMFAC, PPTFAC, PROSRF,
+     &    STRWT, TFRLF, TFRSTM, TFRSTR, TFRRT, WCRSR, WNRSR, 
+     &    XLAI, XSTR
+      double precision CDMOLD, CHOPRO, FROLDA, KCOLD
+      double precision PROLFR, PROSTR, PRORTR, PROSRR
+      double precision PHZACC(20), SDLEST
+      double precision SLAMAX, SLAMIN, THRESH
+
 
         OPEN (LUNCRP,FILE=FILECC(1:filecc_len),STATUS='OLD',IOSTAT=ERR)
         SECTION = '!*LEAF'
@@ -310,6 +361,178 @@ C-----------------------------------------------------------------------
          CALL IGNORE(LUNCRP,LNUM,ISECT,C80) !12th line
          READ(C80,'(4F6.0,2X,A)',IOSTAT=ERRNUM) CICAD,CCNEFF,
      &        CMXSF,CQESF,PGPATH 
+     
+      rewind(luncrp)
+
+!-----------------------------------------------------------------------
+!    Find and Read Respiration Section
+!-----------------------------------------------------------------------
+      LNUM = 1
+      SECTION = '!*RESP'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+      CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+      CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+      READ(C80,'(F6.0,6X,F6.0)',IOSTAT=ERR) RNO3C, RPRO
+
+      CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+      READ(C80,'(5F6.0)',IOSTAT=ERR)RCH2O,RLIP,RLIG,ROA,RMIN
+
+!-----------------------------------------------------------------------
+!    Find and Read Plant Composition Section
+!-----------------------------------------------------------------------
+      SECTION = '!*PLAN'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+      CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(F6.0,6X,2F6.0,6X,F6.0)',IOSTAT=ERR)
+     &    PROLFI, PROLFF, PROSTI, PROSTF
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(F6.0,6X,F6.0)',IOSTAT=ERR) PRORTI, PRORTF
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(24X,F6.0)',IOSTAT=ERR) PLIGSD
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(24X,F6.0)',IOSTAT=ERR) POASD
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(24X,F6.0)',IOSTAT=ERR) PMINSD
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(F6.0,6X,F6.0)',IOSTAT=ERR) PROSRI,PROSRF
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(5F6.0)',IOSTAT=ERR) KCOLD,PROLFR,PROSTR,PRORTR,PROSRR
+
+!-----------------------------------------------------------------------
+!    Find and Read Seed Composition Section
+!-----------------------------------------------------------------------
+      SECTION = '!*SEED'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4F6.0)',IOSTAT=ERR) LIPTB, LIPOPT, SLOSUM, CARMIN
+!        SLOSUM = SLOSUM / 100.0 ! Commmented out this line for reading in species file as-is
+
+!-----------------------------------------------------------------------
+!    Find and Read Carbon and Nitrogen Mining Section
+!-----------------------------------------------------------------------
+      SECTION = '!*CARB'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(18X,3F6.0)',IOSTAT=ERR) NMOBMX, NVSMOB,NRCVR
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(18X,2F6.0)',IOSTAT=ERR) NMOBSRN, NMOBSRX
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4(1X,F5.2),3X,A3)',IOSTAT=ERR)
+     &    (LRMOB(II),II=1,4), TYPLMOB
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4(1X,F5.2),3X,A3)',IOSTAT=ERR)
+     &    (NRMOB(II),II=1,4), TYPNMOB
+
+!-----------------------------------------------------------------------
+!    Find and Read Vegetative Partitioning Section
+!-----------------------------------------------------------------------
+      SECTION = '!*VEGE'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(XLEAF(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YLEAF(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YSTEM(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(12X,2F6.0)',IOSTAT=ERR) FRSTMF, FRLFF
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(F6.0)',IOSTAT=ERR) FRLFMX
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YSTOR(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(2F6.0)',IOSTAT=ERR) FRSTRF,FRSTRMX
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(XLFEST(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YLFEST(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YSTEST(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(8F6.0)',IOSTAT=ERR)(YSREST(II),II=1,8)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(F6.1)',IOSTAT=ERR) SDLEST
+
+!-----------------------------------------------------------------------
+!    Find and Read Leaf Growth Section
+!-----------------------------------------------------------------------
+      SECTION = '!*LEAF'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4F6.0)',IOSTAT=ERR) FINREF, SLAREF, SIZREF, VSSINK
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4F6.0)',IOSTAT=ERR) SLAMAX, SLAMIN, SLAPAR, TURSLA
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6F6.0)',IOSTAT=ERR)(XVGROW(II),II=1,6)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6F6.0)',IOSTAT=ERR)(YVREF(II),II=1,6)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(5F6.0)',IOSTAT=ERR)(XSLATM(II),II = 1,5)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(5F6.0)',IOSTAT=ERR)(YSLATM(II),II = 1,5)
+
+!-----------------------------------------------------------------------
+!    Find and Read Seed and Shell Growth Section
+!-----------------------------------------------------------------------
+      SECTION = '!*SEED'
+      CALL FIND(LUNCRP, SECTION, LNUM, FOUND)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6X,F6.0)',IOSTAT=ERR) SRMAX
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6X,2F6.0)',IOSTAT=ERR) XFRMAX, SHLAG
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4(1X,F5.2),3X,A3)',IOSTAT=ERR)
+     &    (FNSDT(II),II=1,4), TYPSDT
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6F6.0)',IOSTAT=ERR)(XXFTEM(II),II = 1,6)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(6F6.0)',IOSTAT=ERR)(YXFTEM(II),II = 1,6)
+
+        DO I=1,5
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        ENDDO
+        READ(C80,'(4F6.0)',IOSTAT=ERR)(XTRFAC(II),II = 1,4)
+
+        CALL IGNORE(LUNCRP,LNUM,ISECT,C80)
+        READ(C80,'(4F6.0)',IOSTAT=ERR)(YTRFAC(II),II = 1,4)
+!-----------------------------------------------------------------------
 
       CLOSE (LUNCRP)
       
