@@ -4,10 +4,10 @@ get.sim.controls <- function(filex.name=NULL,level=NULL,filex=NULL){
     sect.name = 'SIMULATION CONTROLS'
     if(is.null(filex)) filex = readLines(filex.name)
     filex = filex[!substr(filex,1,1)=='!'&filex!='@  AUTOMATIC MANAGEMENT']
-    sect.heading = grep(paste('\\*',sect.name,sep=''),filex)
+    sect.heading = grep('^@N GENERAL',filex)
     section = vector('list',length=length(sect.heading))
     for(i in 1:length(sect.heading)){
-        next.heading = grep('^\\*',filex[(sect.heading[i]+1):length(filex)])-1
+        next.heading = grep('^@N GENERAL',filex[(sect.heading[i]+1):length(filex)])-1
         if(length(next.heading)>0){
             next.heading = sect.heading[i] + next.heading[1]
         }else{
@@ -19,4 +19,3 @@ get.sim.controls <- function(filex.name=NULL,level=NULL,filex=NULL){
     section <- do.call(rbind,section)
     return(section)
 }
-

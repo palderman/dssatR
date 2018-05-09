@@ -1,6 +1,7 @@
 read.filex <- function(filex.name){
     flx = readLines(filex.name)
     flx = gsub('  *$','',flx)
+    flx = gsub('\032','',flx)
     sectnames = gsub('^\\*','',grep('^\\*',flx,value=T))
     sectnames = sectnames[!grepl('SIMULATION CONTROLS',sectnames)]
     sectnames = c(sectnames,'SIMULATION CONTROLS')
