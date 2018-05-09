@@ -103,7 +103,7 @@ write.filex <- function(filex,filex.name){
       first <- c('N','GENERAL','NYERS','NREPS','START','SDATE',
                  'RSEED','SNAME')
       second <- c('N','OPTIONS','WATER','NITRO','SYMBI','PHOSP',
-                  'POTAS','DISES','CHEM','TILL')
+                  'POTAS','DISES','CHEM','TILL','CO2')
       third <- c('N','METHODS','WTHER','INCON','LIGHT','EVAPO',
                  'INFIL','PHOTO','HYDRO','NSWIT','MESOM','MESEV','MESOL')
       fourth <- c('N','MANAGEMENT','PLANT','IRRIG','FERTI',

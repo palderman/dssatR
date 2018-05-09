@@ -14,7 +14,7 @@ fmt.filex <- function(){
             'PPOP','PPOE','SAHB','SAHW','SNH4','SNO3','SLEN','FLWR','SLAS',
             '.SLEN','.FLWR','.SLAS','ICWD'),
         `%6.2f`=c('ICRE','IEFF','RESK','RESN','RESP','SADM','SAKE','SAPX',
-            'SAPW','ICRN','ICREN','ICREP'),
+            'SAPW','ICRN','ICREN','ICREP','IREFF'),
         `%6.3f`=c('SAOC','SANI','SAPHW','SH2O'),
         `%6i`=c('PRNO','PLEN','HRNO'),
         `%6s`=c('FACD','FLDT','FMCD','FOCD','HCOM','HSIZE','HSTG','IAME',

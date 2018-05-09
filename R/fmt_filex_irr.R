@@ -3,7 +3,8 @@ fmt.filex.irr <- function(){
         `%2i` = c('I'),
         `%6.5i` = c('IDATE'),
         `%6s` = c('IROP'),
-        `%6.0f` = c('EFIR','IDEP','ITHR','IEPT','IOFF','IAME','IAMT','IRVAL'),
+        `%6.0f` = c('IDEP','ITHR','IEPT','IOFF','IAME','IAMT','IRVAL'),
+        `%6.2f` = c('EFIR'),
         ` %s` = c('IRNAME')
         )
     return(fmt)
