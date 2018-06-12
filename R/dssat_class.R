@@ -8,14 +8,14 @@ dssat.class <- function(vname){
                       'FLDT','SLTX','ID_SOIL','FLNAME',
                       'FLHST','HSTG','HNAME','SMODEL','VBOSE','CO2',
                       'ICNAME','PCR','PLME','PLDS','PLNAME',
-                      'IROFF','IAME','IRNAME','IROP',
+                      'IROFF','IAME','IRNAME','IROP','IOFF',
                       'FMCD','FACD','FERNAME','MESEV','MESOL',
                       'START','SNAME','WATER','NITRO','SYMBI','PHOSP','POTAS',
                       'DISES','CHEM','TILL','CTEMP','WTHER','INCON','LIGHT',
                       'EVAPO','INFIL','PHOTO','HYDRO','MESOM','PLANT','IRRIG',
                       'FERTI','RESID','HARVS','FNAME','OVVEW','SUMRY','GROUT',
                       'CAOUT','WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT',
-                      'OPOUT','IMETH','NCODE','NAOFF','FOCD')){
+                      'OPOUT','IMETH','NCODE','NAOFF','FOCD','FMOPT')){
     the.class <- 'char'
   }else{
     the.class <- 'float'

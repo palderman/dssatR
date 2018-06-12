@@ -52,4 +52,3 @@ read.section <- function(file){
     }
     return(section)
 }
-

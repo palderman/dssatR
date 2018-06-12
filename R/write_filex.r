@@ -89,7 +89,11 @@ write.filex <- function(filex,filex.name){
       write('',filex.name,append=TRUE)
     }
     if('SIMULATION CONTROLS'%in%names(filex)){
-      fmt.tmp <- fmt.filex.sim()
+        fmt.tmp <- fmt.filex.sim()
+        if('S'%in%colnames(filex$`SIMULATION CONTROLS`)){
+            s <- which(colnames(filex$`SIMULATION CONTROLS`)=='S')
+            colnames(filex$`SIMULATION CONTROLS`)[s] <- 'N'
+        }
       filex$`SIMULATION CONTROLS`$GENERAL <- 'GE'
       filex$`SIMULATION CONTROLS`$OPTIONS <- 'OP'
       filex$`SIMULATION CONTROLS`$METHODS <- 'ME'

@@ -2,6 +2,7 @@ read.gen <- function(file.name,model=NULL,type=NULL){
     if(is.null(model)){
         if(grepl('GRO',file.name)){
             model='CROPGRO'
+            fmt.list = cropgro.fmt()
         }else if(grepl('CRP',file.name)){
             model = 'CROPSIM'
             fmt.list = cropsim.fmt()

@@ -18,6 +18,7 @@ read.filex <- function(filex.name){
             filex[[i+1]]=get.section(sectnames[i],file=flx[2:length(flx)])
         }else{
             filex[[i+1]] <- get.sim.controls(filex=flx[2:length(flx)])
+            colnames(filex[[i+1]]) <- gsub('^N$','S',colnames(filex[[i+1]]))
             cnames <- colnames(filex[[i+1]])
             cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
                                           'OUTPUTS','PLANTING','IRRIGATION',
@@ -28,6 +29,16 @@ read.filex <- function(filex.name){
                             'IRRIGATION AND WATER MANAGEMENT')&
          !is.data.frame(filex[[i+1]])){
         filex[[i+1]] <- Reduce(function(...)merge(...,all=TRUE),filex[[i+1]])
+      }else if(length(filex[[i+1]])>2){
+          if(sectnames[i]=='IRRIGATION AND WATER MANAGEMENT'){
+              hd <- unlist(lapply(filex[[i+1]],function(x){
+                  return(any(grepl('EFIR',colnames(x))))
+              }))
+              irr <- list()
+              irr[[1]] <- Reduce(function(...)merge(...,all=TRUE),filex[[i+1]][hd])
+              irr[[2]] <- Reduce(function(...)merge(...,all=TRUE),filex[[i+1]][!hd])
+              filex[[i+1]] <- irr
+          }
       }
     }
     names(filex) = gsub('^\\*','',
