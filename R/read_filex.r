@@ -17,13 +17,13 @@ read.filex <- function(filex.name){
         if(!sectnames[i]=='SIMULATION CONTROLS'){
             filex[[i+1]]=get.section(sectnames[i],file=flx[2:length(flx)])
         }else{
-            filex[[i+1]] <- get.sim.controls(filex=flx[2:length(flx)])
-            colnames(filex[[i+1]]) <- gsub('^N$','S',colnames(filex[[i+1]]))
-            cnames <- colnames(filex[[i+1]])
-            cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
-                                          'OUTPUTS','PLANTING','IRRIGATION',
-                                          'NITROGEN','RESIDUES','HARVEST')]
-            filex[[i+1]] <- filex[[i+1]][,cnames]
+                filex[[i+1]] <- get.sim.controls(filex=flx[2:length(flx)])
+                colnames(filex[[i+1]]) <- gsub('^N$','S',colnames(filex[[i+1]]))
+                cnames <- colnames(filex[[i+1]])
+                cnames <- cnames[!cnames%in%c('GENERAL','OPTIONS','METHODS','MANAGEMENT',
+                                              'OUTPUTS','PLANTING','IRRIGATION',
+                                              'NITROGEN','RESIDUES','HARVEST')]
+                filex[[i+1]] <- filex[[i+1]][,cnames]
         }
       if(!sectnames[i]%in%c('INITIAL CONDITIONS',
                             'IRRIGATION AND WATER MANAGEMENT')&

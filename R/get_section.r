@@ -20,7 +20,12 @@ get.section <- function(sect.name,file.type='filex',file.name=NULL,level=NULL,fi
         next.heading = length(file)
     }
     file = file[sect.heading:next.heading[1]]
-    section = read.section(file)
+    file = grep('^ *$',file,value=TRUE,invert=TRUE)
+    if(sect.name=='ENVIRONMENT MODIFICATIONS'){
+        section <- read.filex.env.sec(file[-1])
+    }else{
+        section = read.section(file)
+    }
     return(section)
 }
 

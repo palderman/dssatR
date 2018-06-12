@@ -53,6 +53,8 @@ write.filex.netcdf <- function(filex,filename){
                'RESIDUES AND OTHER ORGANIC MATERIALS',
                'FERTILIZERS',
                'HARVEST DETAILS','ENVIRONMENT MODIFICATIONS')){
+        if(s=='ENVIRONMENT MODIFICATIONS')
+            names(filex[[s]]) <- gsub('ODATE','WMDATE',names(filex[[s]]))
         dims[[s]] <- ncdim_def(s,'count',as.integer(1:nrow(filex[[s]])))
         vnames <- names(filex[[s]])
         if(vnames[1] %in% c('C','E','H','R','T')) vnames <- vnames[-1]

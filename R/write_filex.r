@@ -74,11 +74,15 @@ write.filex <- function(filex,filex.name){
                  file.name=filex.name,fmt.list=fmt.tmp)
       write('',filex.name,append=TRUE)
     }
+#    if('CHEMICAL APPLICATIONS'%in%names(filex)){
+#      write('*CHEMICAL APPLICATIONS',filex.name,append=TRUE)
+#      write('',filex.name,append=TRUE)
+#    }
     if('ENVIRONMENT MODIFICATIONS'%in%names(filex)){
-      fmt.tmp <- fmt.filex.env()
       write('*ENVIRONMENT MODIFICATIONS',filex.name,append=TRUE)
-      write.tier(filex$`ENVIRONMENT MODIFICATIONS`,
-                 file.name=filex.name,fmt.list=fmt.tmp)
+      write(c('@E ODATE EDAY  ERAD  EMAX  EMIN  ERAIN ECO2  EDEW  EWIND ENVNAME',
+              write.filex.env.sec(filex$`ENVIRONMENT MODIFICATIONS`)),
+            filex.name,append=TRUE)
       write('',filex.name,append=TRUE)
     }
     if('HARVEST DETAILS'%in%names(filex)){
