@@ -217,8 +217,9 @@ read.cropgro.spe <- function(filename,s=1){
         spe[[i]] <- do.call(c,spe[[i]])
     }
 
-#    names(spe) <- sec.names
     spe <- do.call(c,spe)
+
+    names(spe) <- gsub('CH20','CH2O',names(spe))
 
     return(spe)
 

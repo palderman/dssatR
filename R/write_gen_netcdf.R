@@ -16,14 +16,35 @@ write.gen.netcdf <- function(cul,eco,spe,file.name){
         spe <- lapply(spe$parameters,as.list) %>%
             do.call(c,.)
 
-    
+    cul.names <- names(cul)
+    eco.names <- names(eco)
+    spe.names <- names(spe)
+
+    if(any(cul.names%in%spe.names)){
+        for(n in cul.names[cul.names%in%spe.names]){
+            cul.names <- gsub(n,paste0(n,'_CUL'),cul.names)
+        }
+    }
+    if(any(cul.names%in%eco.names)){
+        for(n in cul.names[cul.names%in%eco.names]){
+            cul.names <- gsub(n,paste0(n,'_CUL'),cul.names)
+        }
+    }
+    if(any(eco.names%in%spe.names)){
+        for(n in eco.names[eco.names%in%spe.names]){
+            eco.names <- gsub(n,paste0(n,'_ECO'),eco.names)
+        }
+    }
+    names(cul) <- cul.names
+    names(eco) <- eco.names
+
     culdim <- ncdim_def('cul','count',1:nrow(cul))
     ecodim <- ncdim_def('eco','count',1:nrow(eco))
 
     gen <- c(spe,
              as.list(eco[,names(eco)!='ECO#']),
              as.list(cul[,names(cul)!='VAR#']))
-    names(gen) <- gsub('ECO#','ECONO',names(gen))
+    names(gen) <- gsub('(ECO#)|(ECO#_CUL)','ECONO',names(gen))
 
     # Determine lengths for all character parameters
     gen.clen <- sapply(gen,function(x){

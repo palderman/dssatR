@@ -1,8 +1,16 @@
 read.gen <- function(file.name,model=NULL,type=NULL){
+    if(is.null(type)){
+        type = substr(file.name,nchar(file.name)-2,nchar(file.name))
+        type = tolower(type)
+    }
     if(is.null(model)){
         if(grepl('GRO',file.name)){
             model='CROPGRO'
             fmt.list = cropgro.fmt()
+            if(type=='eco'){
+                i <- grep('ECONAME',fmt.list)
+                names(fmt.list)[i] <- '%17s'
+            }
         }else if(grepl('CRP',file.name)){
             model = 'CROPSIM'
             fmt.list = cropsim.fmt()
@@ -15,10 +23,6 @@ read.gen <- function(file.name,model=NULL,type=NULL){
         }else{
             stop('Please provide model name.')
         }
-    }
-    if(is.null(type)){
-        type = substr(file.name,nchar(file.name)-2,nchar(file.name))
-        type = tolower(type)
     }
     gen = readLines(file.name)
     first.char = substr(gen,1,1)
@@ -42,7 +46,7 @@ read.gen <- function(file.name,model=NULL,type=NULL){
         nrows = length(check[substr(check,1,1)!='!'&check!=''])
         params = read.tier(gen[hlines[i]],hlines[i],nrows,
             file.name=file.name,fmt.list=fmt.list)
-        parameters[[i]]=na.omit(params)
+        parameters[[i]]=params
     }
     parameters = lapply(parameters,function(x){
         for(c in 1:ncol(x)){
@@ -52,7 +56,13 @@ read.gen <- function(file.name,model=NULL,type=NULL){
         }
         return(x)
     })
-    gen = list(title=title,comments=comments,parameters=parameters)
+    if(type == 'spe'){
+        gen <- do.call(c,lapply(parameters,as.list))
+    }else{
+        gen <- parameters[[1]]
+    }
+    attr(gen,'title') <- title
+    attr(gen,'comments') <- comments
     return(gen)
 }
 
