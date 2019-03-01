@@ -88,7 +88,7 @@ dssat.plot <- function(variable,trno=NULL,sqno=NULL,run=NULL,new=FALSE,file=NULL
             }else{
                 if (grepl('.jpg',file)) jpeg(filename=file)
                 if (grepl('.tif',file)) tiff(filename=file)
-                if (grepl('.eps',file)) postscript(filename=file)
+                if (grepl('.eps',file)) postscript(file=file)
             }
             dev.scale = par('fin')[2]/6.99311
             par(mgp=c(3,1,0)*dev.scale)

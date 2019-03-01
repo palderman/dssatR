@@ -15,7 +15,10 @@ dssat.class <- function(vname){
                       'EVAPO','INFIL','PHOTO','HYDRO','MESOM','PLANT','IRRIG',
                       'FERTI','RESID','HARVS','FNAME','OVVEW','SUMRY','GROUT',
                       'CAOUT','WAOUT','NIOUT','MIOUT','DIOUT','LONG','CHOUT',
-                      'OPOUT','IMETH','NCODE','NAOFF','FOCD','FMOPT')){
+                      'OPOUT','IMETH','NCODE','NAOFF','FOCD','FMOPT',
+                      'DAYFAC','RADFAC','TXFAC','TMFAC','PRCFAC','CO2FAC',
+                      'DPTFAC','WNDFAC','ENVNAME','CHCOD','CHME','CHTCHNAME',
+                      'SLMH')){
     the.class <- 'char'
   }else{
     the.class <- 'float'

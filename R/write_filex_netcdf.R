@@ -57,7 +57,7 @@ write.filex.netcdf <- function(filex,filename){
             names(filex[[s]]) <- gsub('ODATE','WMDATE',names(filex[[s]]))
         dims[[s]] <- ncdim_def(s,'count',as.integer(1:nrow(filex[[s]])))
         vnames <- names(filex[[s]])
-        if(vnames[1] %in% c('C','E','H','R','T')) vnames <- vnames[-1]
+        if(vnames[1] %in% c('C','E','H','R','T','F')) vnames <- vnames[-1]
         vars[[lncode(s)]] <- ncvar_def(lncode(s),'',dims[s],prec='integer',missval=-99)
         for(v in vnames){
           if(dssat.class(v)=='char'){
@@ -142,6 +142,7 @@ write.filex.netcdf <- function(filex,filename){
                'FERTILIZERS',
                'HARVEST DETAILS','ENVIRONMENT MODIFICATIONS')){
         vnames <- names(filex[[s]])
+        if(vnames[1] %in% c('C','E','H','R','T','F')) vnames <- vnames[-1]
         ncvar_put(nc_filex,lncode(s),filex[[s]][[1]])
         for(v in vnames){
           ncvar_put(nc_filex,v,filex[[s]][[v]])

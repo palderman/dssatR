@@ -5,8 +5,7 @@ load.dssat <- function(model='cropgro',sqno=NULL,type='OUT'){
     for (i in 1:length(files)) {
         temp = NULL
         if (type=='OUT'&&any(dirfiles==paste(files[i],'.',type,sep=''))) {
-            read.dssat(fileout=paste(files[i],'.OUT',sep=''),
-                       model,sqno=sqno)
+            read.dssat(paste(files[i],'.OUT',sep=''))
             temp = eval(as.name(files[i]))
         }else if(type=='R'&&any(grepl(tolower(files[i]),dirfiles))){
 #            read.dssat.binary(files[i])

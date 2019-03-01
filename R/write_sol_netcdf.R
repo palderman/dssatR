@@ -10,6 +10,13 @@ write.sol.netcdf <- function(sol,file.name){
 
     layers <- sol$layer
 
+    for(i in 1:ncol(layers)){
+        if(is.character(layers[,i])|is.factor(layers[,i])){
+            layers[,i] <- as.character(layers[,i]) %>%
+                gsub('(^  *)|(  *$)','',.)
+        }
+    }
+
     sol <- sol[-which(names(sol)=='layer')]
 
     # Determine lengths for all character parameters
@@ -71,21 +78,21 @@ write.sol.netcdf <- function(sol,file.name){
 
     # Create variables for other station information variables
     for(p in names(layers)){
-        if(is.character(sol[[p]]) |
-           is.factor(sol[[p]])){
-            clen <- as.character(sol[[p]]) %>%
+        if(is.character(layers[[p]]) |
+           is.factor(layers[[p]])){
+            clen <- as.character(layers[[p]]) %>%
                 gsub('(^ *)|( *$)','',.) %>%
                 nchar(.) %>%
                 max(.,na.rm=TRUE)
             v.list[[p]] <- ncvar_def(p,
                                      '',
-                                     list(long.dim,lat.dim,layer.dim,len.dims[[which(all.len==clen)]]),
+                                     list(len.dims[[which(all.len==clen)]],layer.dim,long.dim,lat.dim),
                                      missval=' ',
                                      prec='char')
         }else{
             v.list[[p]] <- ncvar_def(p,
                                      '',
-                                     list(long.dim,lat.dim,layer.dim),
+                                     list(layer.dim,long.dim,lat.dim),
                                      missval=-99,
                                      prec='float')
         }

@@ -20,7 +20,7 @@ get.widths <- function(vnames,type='filex'){
         widths = unlist(lapply(vnames,FUN=function(x){
             width = switch(x,
                        'VAR#'=6,'VAR-NAME'=16,'EXP#'=6,'ECO#'=6,
-                       'P1V'=6,'P1D=6',
+                       'P1V'=6,'P1D'=6,
                        CU=2,FL=2,SA=2,IC=2,MP=2,MI=2,MF=2,MR=2,MC=2,
                         MT=2,ME=2,MH=2,SM=2,CR=2,A=2,C=2,F=2,H=2,L=2,
                         N=2,O=2,P=2,R=2,T=2,PEOPLE=120,ADDRESS=120,
